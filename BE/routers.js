@@ -6,7 +6,7 @@ router.get('/', function (req, res) {
 })
 
 router.get('/users/:id', function (req, res) {
-    const id = req.params.id
+    const id = req.params.id;
     if (Number(id) === 1) {
         const user = {
             id: 1,
@@ -25,15 +25,15 @@ router.get('/users/:id', function (req, res) {
 })
 
 router.get('/users/', function (req, res) {
-    const name = req.query.name
-    const aga = req.query.aga
+    const name = req.query.name;
+    const age = req.query.aga;
     res.send(name + " " + age);
     
 })
 
 
 router.post('/users', function (req, res) {
-    console.log("post");
+    console.log("post /user");
     res.send('Got a POST request');
 })
 
