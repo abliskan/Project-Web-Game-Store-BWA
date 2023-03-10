@@ -1,11 +1,12 @@
 const createError = require('http-error');
 const express = require('express');
-const router = require('./app/router/routers');
+const router = require('./app/category/routers');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 
 const port = 4000;
 
+const dashboardRouter = require('./app/dashboard/router')
 const categoryRouter = require('./app/category/router');
 
 const app = express();
@@ -31,7 +32,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte/')));
 
-app.use('/', categoryRouter);
+app.use('/', dashboardRouter);
+app.use('/app/category', categoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
