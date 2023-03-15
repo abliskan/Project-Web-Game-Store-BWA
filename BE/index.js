@@ -3,6 +3,7 @@ const express = require('express');
 const router = require('./app/category/routers');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const methodOverride = require('method-override');
 
 const port = 4000;
 
@@ -26,6 +27,7 @@ app.listen(port, ()  => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
