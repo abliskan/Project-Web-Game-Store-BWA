@@ -1,9 +1,10 @@
 const createError = require('http-error');
 const express = require('express');
-const router = require('./app/category/routers');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const port = 4000;
 
@@ -27,6 +28,14 @@ app.listen(port, ()  => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: true
+    }
+}))
 app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
