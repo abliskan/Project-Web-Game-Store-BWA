@@ -13,7 +13,7 @@ const categoryRouter = require('./app/category/router');
 
 const app = express();
 
-const myLogger = function (req, res, next) {
+con     st myLogger = function (req, res, next) {
     console.log('USER HAS LOG IN');
     next();
 }
