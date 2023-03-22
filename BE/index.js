@@ -10,10 +10,12 @@ const port = 4000;
 
 const dashboardRouter = require('./app/dashboard/router')
 const categoryRouter = require('./app/category/router');
+const nominalRouter = require('./app/nominal/router');
+const voucherRouter = require('./app/voucher/router');
 
 const app = express();
 
-con     st myLogger = function (req, res, next) {
+const myLogger = function (req, res, next) {
     console.log('USER HAS LOG IN');
     next();
 }
@@ -42,6 +44,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte/')));
+
+app.use('/', dashboardRouter);
+app.use('/category', categoryRouter);
+app.use('/nominal', nominalRouter);
+app.use('/voucher', voucherRouter);
 
 app.use('/', dashboardRouter);
 app.use('/app/category', categoryRouter);

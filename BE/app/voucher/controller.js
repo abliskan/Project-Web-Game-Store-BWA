@@ -1,4 +1,6 @@
-const Nominal = require('./model');
+const Voucher = require('./model');
+const Category = require('../category/model');
+const Nominal = require('../nominal/model');
 
 module.exports = {
     index: async(req, res) => {
@@ -7,43 +9,48 @@ module.exports = {
             const alertStatus = req.flash("alertStatus")
 
             const alert = { message: alertMessage, status: alertStatus}
-            const nominal = await Nominal.find();
-            res.render('admin/nominal/view_category', {
-                nominal,
+            const voucher = await Voucher.find();
+            res.render('admin/voucher/view_category', {
+                voucher,
                 alert
             });
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/category');
+            res.redirect('/voucher');
         }
     },
 
     viewCreate : async(req, res) => {
         try {
-            res.render('admin/nominal/category');
+            const category = await Category.find();
+            const nominal = await Nominal.find();
+            res.render('admin/voucher/create',
+              category,
+              nominal
+            );
+        } catch (err) {
+            req.flash('alertMessage', `${err.message}`);
+            req.flash('alertStatus', `danger`);
+            res.redirect('/voucher');
+        }
+    },
+/*
+    actionCreate : async(req, res) => {
+        try {
+            const { name } = req.body
+
+            const category = await Category({ name });
+            await category.save();
+
+            req.flash('alertMessage', "berhasil tambah kategori");
+            req.flash('alertStatus', "success");
+
+            res.redirect('/category');
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
             res.redirect('/category');
-        }
-    },
-
-    actionCreate : async(req, res) => {
-        try {
-            const { coinName, coinQuantity, price } = req.body
-
-            const nominal = await Nominal({ coinName, coinQuantity, price });
-            await nominal.save();
-
-            req.flash('alertMessage', "berhasil tambah nominal");
-            req.flash('alertStatus', "success");
-
-            res.redirect('/nominal');
-        } catch (err) {
-            req.flash('alertMessage', `${err.message}`);
-            req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
         }
     },
 
@@ -51,37 +58,37 @@ module.exports = {
         try {
             const { id } = req.params;
 
-            const nominal = await Nominal.findOne({_id : id});
+            const category = await Category.findOne({_id : id});
 
-            req.render('admin/nominal/edit', {
-                nominal
+            req.render('admin/category/edit', {
+                category
             })
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
+            res.redirect('/category');
         }
-    }, 
+    },
 
     actionEdit : async(req, res) => {
         try {
             const { id } = req.params;
-            const { coinName, coinQuantity, price } = req.body;
+            const { name } = req.body;
 
-            await Nominal.findOneAndUpdate({
+            const category = await Category.findOneAndUpdate({
                 _id: id
             }, {
-                coinName, coinQuantity, price 
+                name
             });
 
-            req.flash('alertMessage', "berhasil ubah nominal");
+            req.flash('alertMessage', "berhasil ubah kategori");
             req.flash('alertStatus', "success");
 
-            res.redirect('/nominal')
+            res.redirect('/category')
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
+            res.redirect('/category');
         }
     },
 
@@ -89,20 +96,20 @@ module.exports = {
         try {
             const { id } = req.params;
 
-            await Nominal.findOneAndRemove({
+            const category = await Category.findOneAndRemove({
                 _id: id
             });
 
-            req.flash('alertMessage', "berhasil hapus nominal");
+            req.flash('alertMessage', "berhasil hapus kategori");
             req.flash('alertStatus', "success");
 
-            res.redirect('/nominal');
+            res.redirect('/category');
 
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
+            res.redirect('/category');
         }
     }
-
+*/
 }
