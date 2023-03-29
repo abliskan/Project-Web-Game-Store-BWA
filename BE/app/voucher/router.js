@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { index, viewCreate, actionCreate, viewEdit, actionEdit, actionDelete } = require('./controller');
+const { index, viewCreate, actionCreate, viewEdit, actionEdit, actionDelete, actionStatus } = require('./controller');
 const multer = require('multer');
 const os = require('os');
 
@@ -11,5 +11,6 @@ router.post('/create', multer({ dest: os.tmpdir()}).single('image'), actionCreat
 router.get('/edit/:id', viewEdit);
 router.put('/edit/:id', multer({ dest: os.tmpdir()}).single('image'), actionEdit);
 router.delete('/delete/:id', actionDelete);
+router.put('/status/:id', actionStatus);
 
 module.exports = router;
