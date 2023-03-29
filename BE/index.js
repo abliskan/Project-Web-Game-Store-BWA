@@ -12,9 +12,11 @@ const dashboardRouter = require('./app/dashboard/router')
 const categoryRouter = require('./app/category/router');
 const nominalRouter = require('./app/nominal/router');
 const voucherRouter = require('./app/voucher/router');
+const bankRouter = require('./app/bank/router');
 
 const app = express();
 
+// view engine setup
 const myLogger = function (req, res, next) {
     console.log('USER HAS LOG IN');
     next();
@@ -38,6 +40,7 @@ app.use(session({
         secure: true
     }
 }))
+app.flash(flash());
 app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -52,6 +55,9 @@ app.use('/voucher', voucherRouter);
 
 app.use('/', dashboardRouter);
 app.use('/app/category', categoryRouter);
+app.use('/app/nominal', nominalRouter);
+app.use('/app/voucher', voucherRouter);
+app.use('/app/bank', bankRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

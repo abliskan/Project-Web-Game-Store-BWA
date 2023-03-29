@@ -1,4 +1,4 @@
-const Nominal = require('./model');
+const Bank = require('./model');
 
 module.exports = {
     index: async(req, res) => {
@@ -7,46 +7,46 @@ module.exports = {
             const alertStatus = req.flash("alertStatus")
 
             const alert = { message: alertMessage, status: alertStatus}
-            const nominal = await Nominal.find();
-            res.render('admin/nominal/view_category', {
-                nominal,
+            const bank = await Bank.find();
+            res.render('admin/bank/view_bank', {
+                bank,
                 alert
             });
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
+            res.redirect('/bank');
         }
     },
 
     viewCreate : async(req, res) => {
         try {
-            res.render('admin/nominal/category');
+            res.render('admin/bank/create');
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
+            res.redirect('/bank');
         }
     },
 
     actionCreate : async(req, res) => {
         try {
-            const { coinName, coinQuantity, price } = req.body
+            const { name, nameBank, noRekening } = req.body
 
-            const nominal = await Nominal({ coinName, coinQuantity, price });
-            await nominal.save();
+            const bank = await Bank({ name, nameBank, noRekening });
+            await bank.save();
 
             req.flash('alertMessage', "berhasil tambah nominal");
             req.flash('alertStatus', "success");
 
-            res.redirect('/nominal');
+            res.redirect('/bank');
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
+            res.redirect('/bank');
         }
     },
-
+/*
     viewEdit : async(req, res) => {
         try {
             const { id } = req.params;
@@ -104,5 +104,5 @@ module.exports = {
             res.redirect('/nominal');
         }
     }
-
+*/
 }
