@@ -46,23 +46,23 @@ module.exports = {
             res.redirect('/bank');
         }
     },
-/*
+
     viewEdit : async(req, res) => {
         try {
             const { id } = req.params;
 
-            const nominal = await Nominal.findOne({_id : id});
+            const bank = await Bank.findOne({_id : id});
 
-            req.render('admin/nominal/edit', {
-                nominal
+            req.render('admin/bank/edit', {
+                bank
             })
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
+            res.redirect('/bank');
         }
     }, 
-
+/*
     actionEdit : async(req, res) => {
         try {
             const { id } = req.params;
