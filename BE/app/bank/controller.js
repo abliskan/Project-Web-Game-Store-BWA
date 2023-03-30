@@ -62,29 +62,29 @@ module.exports = {
             res.redirect('/bank');
         }
     }, 
-/*
+
     actionEdit : async(req, res) => {
         try {
             const { id } = req.params;
-            const { coinName, coinQuantity, price } = req.body;
+            const { name, nameBank, noRekening } = req.body;
 
-            await Nominal.findOneAndUpdate({
+            await Bank.findOneAndUpdate({
                 _id: id
             }, {
-                coinName, coinQuantity, price 
+                name, nameBank, noRekening 
             });
 
-            req.flash('alertMessage', "berhasil ubah nominal");
+            req.flash('alertMessage', "berhasil ubah bank");
             req.flash('alertStatus', "success");
 
-            res.redirect('/nominal')
+            res.redirect('/bank')
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/nominal');
+            res.redirect('/bank');
         }
     },
-
+/*
     actionDelete : async(req, res) => {
         try {
             const { id } = req.params;
