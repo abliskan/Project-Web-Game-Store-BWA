@@ -6,17 +6,18 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 
-const port = 4000;
+// const port = 4000;
 
 const dashboardRouter = require('./app/dashboard/router')
 const categoryRouter = require('./app/category/router');
 const nominalRouter = require('./app/nominal/router');
 const voucherRouter = require('./app/voucher/router');
 const bankRouter = require('./app/bank/router');
+const paymentRouter = require('./app/payment/router');
 
 const app = express();
 
-// view engine setup
+/* view engine setup
 const myLogger = function (req, res, next) {
     console.log('USER HAS LOG IN');
     next();
@@ -27,6 +28,7 @@ app.use(myLogger);
 app.listen(port, ()  => {
     console.log(`Example app listening at http://localhost:${port}`);
 })
+*/
 
 // view engine setup 
 app.set('views', path.join(__dirname, 'views'));
@@ -58,6 +60,7 @@ app.use('/app/category', categoryRouter);
 app.use('/app/nominal', nominalRouter);
 app.use('/app/voucher', voucherRouter);
 app.use('/app/bank', bankRouter);
+app.use('/app/payment', paymentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
