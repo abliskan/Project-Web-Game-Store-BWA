@@ -89,7 +89,6 @@ module.exports = {
         }
     },
 
-/*
     actionDelete : async(req, res) => {
         try {
             const { id } = req.params;
@@ -98,16 +97,16 @@ module.exports = {
                 _id: id
             });
 
-            req.flash('alertMessage', "berhasil hapus bank");
+            req.flash('alertMessage', "berhasil hapus payment");
             req.flash('alertStatus', "success");
 
-            res.redirect('/bank');
+            res.redirect('/payment');
 
         } catch (err) {
             req.flash('alertMessage', `${err.message}`);
             req.flash('alertStatus', `danger`);
-            res.redirect('/bank');
+            res.redirect('/payment');
         }
     }
-*/
+
 }
