@@ -48,6 +48,46 @@ module.exports = {
             res.redirect('/payment');
         }
     },
+    
+    viewEdit : async(req, res) => {
+        try {
+            const { id } = req.params;
+
+            const payment = await Payment.findOne({_id: id}).populate('banks');
+            const banks = await Bank.find();
+
+            req.render('admin/payment/edit', {
+                payment,
+                banks
+            })
+        } catch (err) {
+            req.flash('alertMessage', `${err.message}`);
+            req.flash('alertStatus', `danger`);
+            res.redirect('/payment');
+        }
+    },
+
+    actionEdit : async(req, res) => {
+        try {
+            const { id } = req.params;
+            const { banks, type } = req.body;
+
+            await Bank.findOneAndUpdate({
+                _id: id
+            }, {
+                banks, type 
+            });
+
+            req.flash('alertMessage', "berhasil ubah payment");
+            req.flash('alertStatus', "success");
+
+            res.redirect('/payment')
+        } catch (err) {
+            req.flash('alertMessage', `${err.message}`);
+            req.flash('alertStatus', `danger`);
+            res.redirect('/payment');
+        }
+    },
 
 /*
     actionDelete : async(req, res) => {
