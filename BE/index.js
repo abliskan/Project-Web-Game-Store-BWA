@@ -14,6 +14,8 @@ const nominalRouter = require('./app/nominal/router');
 const voucherRouter = require('./app/voucher/router');
 const bankRouter = require('./app/bank/router');
 const paymentRouter = require('./app/payment/router');
+const userRouter = require('./app/payment/router');
+
 
 const app = express();
 

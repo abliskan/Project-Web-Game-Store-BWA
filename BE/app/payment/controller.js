@@ -5,7 +5,7 @@ module.exports = {
     index: async(req, res) => {
         try {
             const alertMessage = req.flash("alertMessage");
-            const alertStatus = req.flash("alertStatus")
+            const alertStatus = req.flash("alertStatus");
 
             const alert = { message: alertMessage, status: alertStatus}
             const payment = await Payment.find().populate('banks');
