@@ -16,4 +16,4 @@ let paymentSchema = mongoose.Schema ({
     }]
 }, { timestamps: true })
 
-module.exports = mongoose.model('Category', paymentSchema);
+module.exports = mongoose.model('Payment', paymentSchema);

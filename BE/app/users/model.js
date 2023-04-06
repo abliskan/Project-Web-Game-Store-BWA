@@ -29,4 +29,4 @@ let userSchema = mongoose.Schema ({
     }
 }, { timestamps: true })
 
-module.exports = mongoose.model('Category', paymentSchema);
+module.exports = mongoose.model('User', userSchema);

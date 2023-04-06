@@ -15,4 +15,4 @@ let bankSchema = mongoose.Schema ({
     }
 }, { timestamps: true})
 
-module.exports = mongoose.model('Category', bankSchema);
+module.exports = mongoose.model('Bank', bankSchema);

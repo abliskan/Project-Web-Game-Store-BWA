@@ -14,8 +14,8 @@ const nominalRouter = require('./app/nominal/router');
 const voucherRouter = require('./app/voucher/router');
 const bankRouter = require('./app/bank/router');
 const paymentRouter = require('./app/payment/router');
-const userRouter = require('./app/payment/router');
-
+const usersRouter = require('./app/users/router');
+const transactionRouter = require('./app/transaction/router');
 
 const app = express();
 
@@ -52,17 +52,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte/')));
 
-app.use('/', dashboardRouter);
+app.use('/', usersRouter);
+app.use('/dashboard', dashboardRouter);
 app.use('/category', categoryRouter);
 app.use('/nominal', nominalRouter);
 app.use('/voucher', voucherRouter);
-
-app.use('/', dashboardRouter);
-app.use('/app/category', categoryRouter);
-app.use('/app/nominal', nominalRouter);
-app.use('/app/voucher', voucherRouter);
-app.use('/app/bank', bankRouter);
-app.use('/app/payment', paymentRouter);
+app.use('/bank', bankRouter);
+app.use('/payment', paymentRouter);
+app.use('/transaction', transactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

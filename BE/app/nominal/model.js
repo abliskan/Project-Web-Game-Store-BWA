@@ -15,4 +15,4 @@ let nominalSchema = mongoose.Schema({
     }
 },  { timestamps: true })
 
-module.exports = mongoose.model('Category', nominalSchema)
+module.exports = mongoose.model('Nominal', nominalSchema)
