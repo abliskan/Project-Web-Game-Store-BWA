@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const logger = require('morgan');
 const flash = require('connect-flash');
 
 // const port = 4000;
@@ -16,6 +17,8 @@ const bankRouter = require('./app/bank/router');
 const paymentRouter = require('./app/payment/router');
 const usersRouter = require('./app/users/router');
 const transactionRouter = require('./app/transaction/router');
+const playerRouter = require('./app/player/router');
+const URL = '/api/v1'
 
 const app = express();
 
@@ -24,8 +27,6 @@ const myLogger = function (req, res, next) {
     console.log('USER HAS LOG IN');
     next();
 }
-
-app.use(myLogger);
 
 app.listen(port, ()  => {
     console.log(`Example app listening at http://localhost:${port}`);
@@ -46,6 +47,7 @@ app.use(session({
 }))
 app.flash(flash());
 app.use(methodOverride('_method'));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -60,6 +62,9 @@ app.use('/voucher', voucherRouter);
 app.use('/bank', bankRouter);
 app.use('/payment', paymentRouter);
 app.use('/transaction', transactionRouter);
+
+// api
+app.use('${URL}/players', playerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
