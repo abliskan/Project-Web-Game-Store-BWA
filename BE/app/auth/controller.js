@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const config = require('../../config');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     signup : async (req, res, next)=> {

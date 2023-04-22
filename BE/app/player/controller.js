@@ -4,6 +4,7 @@ const Category = require('../category/model');
 const Bank = require('../bank/model');
 const Payment = require('../payment/model');
 const Nominal = require('../nominal/model');
+const Transaction = require('../transaction/model');
 
 module.exports = { 
     landingPage: async(req, res) => {
@@ -73,15 +74,15 @@ module.exports = {
                     gameName : res_voucher._doc.name,
                     category: res_voucher._doc.category ? res_voucher._doc.category.name : '',
                     thumbnail: res_voucher._doc.thumbnail,
-                    coinName: res_voucher._doc.coinName,
-                    coinQuantity: res_voucher._doc.coinQuantity,
-                    price: res_voucher._doc.price,
+                    coinName: res_nominal._doc.coinName,
+                    coinQuantity: res_nominal._doc.coinQuantity,
+                    price: res_nominal._doc.price
                 }, 
                 historyPayment : {
-                    name : res_payment._doc.name,
+                    name : res_bank._doc.name,
                     type: res_payment._doc.type,
-                    banName: res_payment._doc.bankName,
-                    noRekening: res_payment._doc.noRekening
+                    banName: res_bank._doc.bankName,
+                    noRekening: res_bank._doc.noRekening
                 },
 
                 name : name,
@@ -90,14 +91,21 @@ module.exports = {
                 value : value,
                 player : req.player_id,
                 historyUser : {
-                    name : res_voucher._doc.user?._id,
+                    name : res_voucher._doc.user?.name,
                     phoneNumber : res_voucher._doc.user?.phoneNumber
                 },
                 category : res_voucher._doc.category?._id,
                 user : res_voucher._doc.user?._id
             }
 
-            if(!res_bank) return res.status(404).json({ message: 'bank tidak ditemukan.!' });
+            const transaction = new Transaction(payload);
+
+            await transaction.save();
+
+            res.status(201).json({
+                data: payload
+            })
+
         } catch (err) {
             res.status(500).json({ message: err.message || `Internal server error` });
         }   
