@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { landingPage, detailPage, category, checkout, history } = require('./controller');
+const { landingPage, detailPage, category, checkout, history, historyDetail } = require('./controller');
 const { isLoginPlayer } = require('../middleware/auth');
 
 router.get('/landingpage', landingPage);
@@ -9,5 +9,6 @@ router.get('/category', category);
 router.get('/checkout', checkout);
 router.post('/checkout', isLoginPlayer, checkout);
 router.get('/history', isLoginPlayer, history);
+router.get('/history/:id/detail', isLoginPlayer, historyDetail);
 
 module.exports = router;
