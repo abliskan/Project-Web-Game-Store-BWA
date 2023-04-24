@@ -5,6 +5,7 @@ const Bank = require('../bank/model');
 const Payment = require('../payment/model');
 const Nominal = require('../nominal/model');
 const Transaction = require('../transaction/model');
+const { stat } = require('nyc/lib/fs-promises');
 
 module.exports = { 
     landingPage: async(req, res) => {
@@ -18,6 +19,7 @@ module.exports = {
             res.status(500).json({ message: err.message || `Internal server error`});
         }
     },
+
     detailPage: async(req, res) => {
         try {
             const { id } = req.params
@@ -48,7 +50,7 @@ module.exports = {
 
     checkout : async(req, res) => {
         try {
-            const { accountUser, name, nominal, voucher, payment, bank } = req.body
+            const { accountUser, name, nominal, voucher, payment, bank } = req.body;
             const res_voucher = await Voucher.findOne({ _id : voucher })
               .populate('name category _id thumbnail user')
               .populate('category')
@@ -65,6 +67,8 @@ module.exports = {
             if(!res_payment) return res.status(404).json({ message: 'payment tidak ditemukan.!' });
 
             const res_bank = await Bank.findOne({ _id : bank })
+
+            if(!res_bank) return res.status(404).json({ message: 'bank tidak ditemukan.!' });
 
             let tax = ( 10 / 100 ) * res_nominal._doc.price;
             let value = res_nominal._doc.price - tax;
@@ -103,7 +107,47 @@ module.exports = {
             await transaction.save();
 
             res.status(201).json({
-                data: payload
+                data: transaction
+            })
+
+        } catch (err) {
+            res.status(500).json({ message: err.message || `Internal server error` });
+        }   
+    },
+
+    history : async(req, res) => {
+        try {
+            const { status = '' } = req.query;
+
+            let criteria = {}
+
+            if(status.length) {
+                criteria = {
+                    ...criteria,
+                    status : { $regex : `${status}`, $option: 'i'}
+                }
+            }
+
+            if(req.player._id) {
+                criteria = {
+                    ...criteria,
+                    player : req.player._id
+                }
+            }
+
+            const history = await Transaction.find(criteria);
+
+            let total = await Transaction.aggregate([
+                {$match : criteria},
+                {$group :{
+                    _id: null,
+                    value: {$sum: "$value"}
+                }}
+            ])
+
+            res.status(200).json({ 
+                data: history,
+                total: total.length ? total[0].value : 0
             })
 
         } catch (err) {
