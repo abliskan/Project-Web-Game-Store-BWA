@@ -5,7 +5,6 @@ const Bank = require('../bank/model');
 const Payment = require('../payment/model');
 const Nominal = require('../nominal/model');
 const Transaction = require('../transaction/model');
-const { stat } = require('nyc/lib/fs-promises');
 
 module.exports = { 
     landingPage: async(req, res) => {
@@ -194,6 +193,23 @@ module.exports = {
               .sort({ 'updateAt': -1 })
 
             res.status(200).json({data: history, count: count})
+        } catch (err) {
+            res.status(500).json({message: err.message || `Internal server error`});
+        }   
+    },
+
+    dashboard : async(req, res) => {
+        try {
+            const player = {
+                id: req.player._id,
+                username: req.player.username,
+                email: req.player.email,
+                name: req.player.name,
+                avatar: req.player.avatar,
+                phone_number: req.player.phoneNumber
+            }
+
+            res.status(200).json({ data: player })
         } catch (err) {
             res.status(500).json({message: err.message || `Internal server error`});
         }   
